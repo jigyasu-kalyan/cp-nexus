@@ -1,0 +1,78 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Platform {
+  CODEFORCES
+  CODECHEF
+  ATCODER
+}
+
+model User {
+    id              String     @id @default(cuid())
+    email           String     @unique
+    username        String     @unique
+    passwordHash    String      
+    createdAt       DateTime   @default(now())
+    updatedAt       DateTime   @updatedAt
+
+    teams               TeamMembership[]
+    platformProfiles    PlatformProfile[]
+    submissions         Submission[]
+}
+
+model Team {
+    id              String     @id @default(cuid())
+    name            String     @unique
+    createdAt       DateTime   @default(now())
+    updatedAt       DateTime   @updatedAt
+
+    members             TeamMembership[]
+}
+
+model TeamMembership {
+    user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId          String
+    team            Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+    teamId          String
+
+    role            String      @default("member")
+    joinedAt        DateTime    @default(now())
+
+    @@id([userId, teamId])
+}
+
+model PlatformProfile {
+    id              String      @id @default(cuid())
+    user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId          String
+    platform        Platform
+    handle          String
+    rating          Int?
+    lastSync        DateTime
+
+    @@unique([userId, platform])
+}
+
+model Submission {
+    id              String      @id @default(cuid())
+    user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId          String
+
+    platform        Platform
+    problemName     String
+    problemUrl      String
+    problemRating   Int?
+    tags            String[]
+    verdict         String
+    submittedAt     DateTime
+
+    @@unique([userId, platform, problemName, submittedAt])
+    @@index([userId])
+}
