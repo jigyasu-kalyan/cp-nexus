@@ -12,7 +12,10 @@ const app: Express = express();
 
 // All middlewares
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: [
+        'http://localhost:3000',
+        'https://cp-nexus.vercel.app'
+    ],
     credentials: true,
 }));
 app.use(helmet());

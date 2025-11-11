@@ -10,5 +10,8 @@
   "workspaces": [
     "backend",
     "frontend"
-  ]
+  ],
+  "dependencies": {
+    "redis": "^5.9.0"
+  }
 }
