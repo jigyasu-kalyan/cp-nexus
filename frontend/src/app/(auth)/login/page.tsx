@@ -47,11 +47,11 @@ export default function LoginPage() {
             });
             if (result?.error) {
                 setError(result.error);
-                setLoading(false);
             }
             else if (result?.ok) {
                 router.push('/dashboard');
             }
+            setLoading(false);
         } catch (error) {
             console.error(`Login failed: ${error}`);
             setError('An unknown error occured.');
