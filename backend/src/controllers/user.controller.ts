@@ -9,7 +9,7 @@ import prisma from '../config/db';
 
 export const getMe = async (req: Request, res: Response) => {
     try {
-        const userId = req.user!.userId;
+        const userId = req.user!.id;
         const user = await prisma.user.findUnique({
             where: {
                 id: userId,

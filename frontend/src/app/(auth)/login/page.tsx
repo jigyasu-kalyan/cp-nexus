@@ -6,12 +6,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 
-import { signIn } from 'next-auth/react';
+import api from '@/lib/api';
+import { setToken, setUser } from '@/lib/auth';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import Link from 'next/link';
 
 const formSchema = z.object({
     email: z.string().email({
@@ -40,21 +42,27 @@ export default function LoginPage() {
         setError(null);
 
         try {
-            const result = await signIn('credentials', {
-                redirect: false,
+            const response = await api.post('/auth/login', {
                 email: values.email,
                 password: values.password,
             });
-            if (result?.error) {
-                setError(result.error);
-            }
-            else if (result?.ok) {
+
+            const { token, user } = response.data;
+            
+            if (token && user) {
+                // Store token and user data
+                setToken(token);
+                setUser(user);
+                // Redirect to dashboard
                 router.push('/dashboard');
+            } else {
+                setError('Login failed. Please try again.');
+                setLoading(false);
             }
-            setLoading(false);
-        } catch (error) {
-            console.error(`Login failed: ${error}`);
-            setError('An unknown error occured.');
+        } catch (error: any) {
+            console.error('Login failed:', error);
+            const message = error?.response?.data?.message || 'Login failed. Please check your credentials.';
+            setError(message);
             setLoading(false);
         }
     }
@@ -97,10 +105,15 @@ export default function LoginPage() {
                             <p className='text-sm font-medium text-destructive'>{error}</p>
                         )}
                         <Button type='submit' className='w-full' disabled={loading}>
-                            { loading ? 'Loggin in...' : 'Login' }
+                            { loading ? 'Logging in...' : 'Login' }
                         </Button>
                     </form>
                 </Form>
+                
+                <div className='mt-6 text-sm text-slate-400'>
+                    Don't have an account?{' '}
+                    <Link href='/register' className='text-blue-500 hover:underline'>Sign up</Link>
+                </div>
             </CardContent>
         </Card>
     );

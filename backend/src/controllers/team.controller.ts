@@ -9,7 +9,7 @@ import prisma from "../config/db";
 export const createTeam = async (req: Request, res: Response) => {
     try {
         const { name } = req.body;
-        const userId = req.user!.userId;
+        const userId = req.user!.id;
 
         if (!name) {
             return res.status(400).json({ message: "Team name is required." });
@@ -50,9 +50,9 @@ export const createTeam = async (req: Request, res: Response) => {
 export const getTeamById = async (req: Request, res: Response) => {
     try {
         const { teamId } = req.params;
-        const userId = req.user!.userId;
+        const userId = req.user!.id;
 
-        const team = prisma.team.findFirst({
+        const team = await prisma.team.findFirst({
             where: {
                 id: teamId,
                 members: {
@@ -91,8 +91,8 @@ export const getTeamById = async (req: Request, res: Response) => {
  */
 export const getMyTeams = async (req: Request, res: Response) => {
     try {
-        const userId = req.user!.userId;
-        const teams = prisma.team.findMany({
+        const userId = req.user!.id;
+        const teams = await prisma.team.findMany({
             where: {
                 members: {
                     some: {

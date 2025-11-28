@@ -23,14 +23,14 @@ export default function LandingPage() {
           </Link>
         </nav>
       </header>
-      <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-24 bg-gradient-to-b from-slate-950 to-slate-900">
+      <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-24 bg-linear-to-b from-slate-950 to-slate-900">
         <div className="max-w-3xl space-y-8">
           <div className="inline-flex items-center rounded-full border border-slate-800 bg-slate-900/50 px-3 py-1 text-sm text-slate-400 backdrop-blur">
             <span className="flex h-2 w-2 rounded-full bg-green-500 mr-2"></span>
             v1.0 Now Live
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-600">
             Master Competitive Programming
           </h1>
 

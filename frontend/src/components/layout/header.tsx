@@ -1,6 +1,8 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { getUser, logout } from "@/lib/auth";
+import type { User } from "@/lib/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,17 +19,26 @@ import {
 import { Button } from "@/components/ui/button";
 
 export function Header() {
-  const { data: session } = useSession();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const currentUser = getUser();
+    setUser(currentUser);
+  }, []);
 
   // Get first letter of username or email
   const getInitials = () => {
-    if (session?.user?.username) {
-      return session.user.username.charAt(0).toUpperCase();
+    if (user?.username) {
+      return user.username.charAt(0).toUpperCase();
     }
-    if (session?.user?.email) {
-      return session.user.email.charAt(0).toUpperCase();
+    if (user?.email) {
+      return user.email.charAt(0).toUpperCase();
     }
     return "U";
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -38,7 +49,7 @@ export function Header() {
       </div>
 
       {/* User Profile Button */}
-      {session && (
+      {user && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
@@ -50,12 +61,17 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">{user.username}</p>
+                <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+              </div>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/login' })}>
+            <DropdownMenuItem onClick={handleLogout}>
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>

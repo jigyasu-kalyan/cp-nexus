@@ -6,6 +6,8 @@ import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import teamRoutes from './routes/team.routes';
 import profileRoutes from './routes/profile.routes';
+import dashboardRouter from "./routes/dashboard.routes";
+import cookieParser from 'cookie-parser';
 
 const app: Express = express();
 
@@ -22,6 +24,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
 // Test route
@@ -35,5 +38,6 @@ app.use('/api/v1', authRoutes);
 app.use('/api/v1', userRoutes);
 app.use('/api/v1', teamRoutes);
 app.use('/api/v1', profileRoutes);
+app.use('/api/v1/dashboard', dashboardRouter);
 
 export default app;
