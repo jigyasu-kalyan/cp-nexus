@@ -16,7 +16,7 @@ type DashboardStatsResponse = {
  * GET /api/v1/dashboard/stats
  * Fetches core dashboard statistics directly from the PostgreSQL database.
  */
-dashboardRouter.get('/stats', authMiddleware, async (req: Request, res: Response<DashboardStatsResponse | { message: string }>) => {
+dashboardRouter.get('/dashboard/stats', authMiddleware, async (req: Request, res: Response<DashboardStatsResponse | { message: string }>) => {
     // Cast req.user to the extended type to access 'id' safely
     const userId = req.user?.id; 
 
