@@ -26,9 +26,9 @@ export function RatingChart() {
 
     if (error || !data || data.length === 0) {
         return (
-            <Card className="bg-slate-900/50 border-slate-800 backdrop-blur">
+            <Card className="bg-black/50 border-white/10 backdrop-blur-sm shadow-sm hover:border-white/20 transition-colors">
                 <CardHeader>
-                    <CardTitle className="text-slate-200">Rating History</CardTitle>
+                    <CardTitle className="text-sm font-medium text-zinc-400">Rating History</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="h-[250px] flex items-center justify-center text-slate-400">
@@ -40,38 +40,38 @@ export function RatingChart() {
     }
 
     return (
-        <Card className="bg-slate-900/50 border-slate-800 backdrop-blur col-span-1 md:col-span-2">
+        <Card className="bg-black/50 border-white/10 backdrop-blur-sm shadow-sm hover:border-white/20 transition-colors col-span-1 md:col-span-2">
             <CardHeader>
-                <CardTitle className="text-slate-200">Rating History</CardTitle>
+                <CardTitle className="text-sm font-medium text-zinc-400">Rating History</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="h-[300px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={data}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                            <CartesianGrid strokeDasharray="3 3" stroke="#333" />
                             <XAxis
                                 dataKey="date"
-                                stroke="#94a3b8"
-                                tick={{ fill: '#94a3b8' }}
+                                stroke="#888"
+                                tick={{ fill: '#888' }}
                                 tickFormatter={(value) => new Date(value).toLocaleDateString(undefined, { month: 'short', year: '2-digit' })}
                             />
                             <YAxis
-                                stroke="#94a3b8"
-                                tick={{ fill: '#94a3b8' }}
+                                stroke="#fff"
+                                tick={{ fill: '#888' }}
                                 domain={['auto', 'auto']}
                             />
                             <Tooltip
-                                contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', color: '#f1f5f9' }}
+                                contentStyle={{ backgroundColor: '#000', borderColor: '#333', color: '#fff' }}
                                 itemStyle={{ color: '#60a5fa' }}
                                 labelStyle={{ color: '#94a3b8' }}
                             />
                             <Line
                                 type="monotone"
                                 dataKey="rating"
-                                stroke="#3b82f6"
+                                stroke="#fff"
                                 strokeWidth={2}
                                 dot={{ fill: '#3b82f6', r: 4 }}
-                                activeDot={{ r: 6 }}
+                                activeDot={{ r: 6, fill: '#fff' }}
                             />
                         </LineChart>
                     </ResponsiveContainer>

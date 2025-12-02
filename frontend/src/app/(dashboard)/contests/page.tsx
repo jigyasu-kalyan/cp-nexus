@@ -15,7 +15,7 @@ export default function ContestsPage() {
                 <h2 className="text-3xl font-bold tracking-tight">
                     <ShinyText speed={4} className="text-white font-bold">Contest Calendar</ShinyText> 🗓️
                 </h2>
-                <p className="text-slate-400 mt-1">Don't miss the next big challenge.</p>
+                <p className="text-zinc-400 mt-1">Don't miss the next big challenge.</p>
             </motion.div>
 
             <ContestList />

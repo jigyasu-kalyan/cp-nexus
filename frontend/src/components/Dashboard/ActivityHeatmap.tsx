@@ -27,9 +27,9 @@ export function ActivityHeatmap() {
 
     if (error) {
         return (
-            <Card className="bg-slate-900/50 border-slate-800 backdrop-blur">
+            <Card className="bg-black/50 border-white/10 backdrop-blur-sm shadow-sm hover:border-white/20 transition-colors">
                 <CardHeader>
-                    <CardTitle className="text-slate-200">Submission Activity</CardTitle>
+                    <CardTitle className="text-sm font-medium text-zinc-400">Submission Activity</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="h-[150px] flex items-center justify-center text-slate-400">
@@ -46,9 +46,9 @@ export function ActivityHeatmap() {
     oneYearAgo.setFullYear(today.getFullYear() - 1);
 
     return (
-        <Card className="bg-slate-900/50 border-slate-800 backdrop-blur col-span-1 md:col-span-3">
+        <Card className="bg-black/50 border-white/10 backdrop-blur-sm shadow-sm hover:border-white/20 transition-colors col-span-1 md:col-span-3">
             <CardHeader>
-                <CardTitle className="text-slate-200">Submission Activity</CardTitle>
+                <CardTitle className="text-sm font-medium text-zinc-400">Submission Activity</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="w-full overflow-x-auto">

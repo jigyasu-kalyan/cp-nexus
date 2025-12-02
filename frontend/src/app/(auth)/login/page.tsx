@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
+import { Terminal } from 'lucide-react';
 
 import api from '@/lib/api';
 import { setToken, setUser } from '@/lib/auth';
@@ -68,62 +69,75 @@ export default function LoginPage() {
     }
 
     return (
-        <Card className='w-full max-w-sm bg-slate-900/50 border-slate-800 backdrop-blur text-slate-100'>
-            <CardHeader>
-                <CardTitle className='text-2xl text-white'>Login to CP-Nexus</CardTitle>
-                <CardDescription className="text-slate-400">Enter your email and password to access your dashboard.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-                        <FormField
-                            control={form.control}
-                            name='email'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-slate-300">Email</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder='user@example.com'
-                                            {...field}
-                                            className="bg-slate-950/50 border-slate-800 text-slate-100 placeholder:text-slate-600 focus-visible:ring-blue-500"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+        <div className="flex min-h-screen w-full items-center justify-center bg-black px-4 py-12 sm:px-6 lg:px-8">
+            <Card className="w-full max-w-md bg-black/50 border-white/10 backdrop-blur-sm">
+                <CardHeader className="space-y-1">
+                    <div className="flex justify-center mb-4">
+                        <Terminal className="h-10 w-10 text-white" />
+                    </div>
+                    <CardTitle className="text-2xl font-bold text-center text-white">Sign in</CardTitle>
+                    <CardDescription className="text-center text-zinc-400">
+                        Enter your email and password to access your account
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-zinc-200">Email</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="m@example.com"
+                                                {...field}
+                                                className="bg-white/5 border-white/10 text-white placeholder:text-zinc-500 focus-visible:ring-white/20"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-zinc-200">Password</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="password"
+                                                placeholder="********"
+                                                {...field}
+                                                className="bg-white/5 border-white/10 text-white placeholder:text-zinc-500 focus-visible:ring-white/20"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {error && (
+                                <p className="text-sm font-medium text-red-500 text-center">{error}</p>
                             )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='password'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-slate-300">Password</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type='password'
-                                            placeholder='********'
-                                            {...field}
-                                            className="bg-slate-950/50 border-slate-800 text-slate-100 placeholder:text-slate-600 focus-visible:ring-blue-500"
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        {error && (
-                            <p className='text-sm font-medium text-red-500'>{error}</p>
-                        )}
-                        <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white border-none' disabled={loading}>
-                            {loading ? 'Logging in...' : 'Login'}
-                        </Button>
-                    </form>
-                </Form>
-
-                <div className='mt-6 text-sm text-slate-400 text-center'>
-                    Don't have an account?{' '}
-                    <Link href='/register' className='text-blue-500 hover:text-blue-400 hover:underline'>Sign up</Link>
-                </div>
-            </CardContent>
-        </Card>
+                            <Button
+                                type="submit"
+                                className="w-full bg-white text-black hover:bg-zinc-200 font-medium"
+                                disabled={loading}
+                            >
+                                {loading ? 'Signing in...' : 'Sign In'}
+                            </Button>
+                        </form>
+                    </Form>
+                    <div className="text-center text-sm text-zinc-400">
+                        Don't have an account?{' '}
+                        <Link href="/register" className="font-medium text-white hover:underline">
+                            Register
+                        </Link>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
     );
 }

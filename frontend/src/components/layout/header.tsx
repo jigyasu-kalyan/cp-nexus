@@ -17,6 +17,9 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Terminal, Search, User as UserIcon } from "lucide-react";
+import Link from "next/link";
+import { Input } from "@/components/ui/input";
 
 export function Header() {
   const [user, setUser] = useState<User | null>(null);
@@ -42,7 +45,7 @@ export function Header() {
   };
 
   return (
-    <header className="flex h-14 items-center gap-4 border-b border-slate-800 bg-slate-900/50 backdrop-blur px-4 lg:h-[60px] lg:px-6">
+    <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b border-white/10 bg-black/50 px-6 backdrop-blur-md">
       {/* We can add a mobile sidebar toggle here later */}
       <div className="w-full flex-1">
         {/* We can add a search bar here later */}
@@ -52,26 +55,18 @@ export function Header() {
       {user && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="secondary" size="icon" className="rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="#" alt="@avatar" /> {/* Add avatar URL later */}
-                <AvatarFallback>{getInitials()}</AvatarFallback>
-              </Avatar>
+            <Button variant="ghost" size="icon" className="rounded-full text-zinc-400 hover:text-white hover:bg-white/10">
+              <UserIcon className="h-5 w-5" />
               <span className="sr-only">Toggle user menu</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{user.username}</p>
-                <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
+          <DropdownMenuContent align="end" className="bg-black border-white/10 text-zinc-200">
+            <DropdownMenuLabel className="text-white">My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-white/10" />
+            <DropdownMenuItem className="focus:bg-white/10 focus:text-white">Settings</DropdownMenuItem>
+            <DropdownMenuItem className="focus:bg-white/10 focus:text-white">Support</DropdownMenuItem>
+            <DropdownMenuSeparator className="bg-white/10" />
+            <DropdownMenuItem className="text-red-400 focus:bg-red-950/20 focus:text-red-300" onClick={handleLogout}>
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>

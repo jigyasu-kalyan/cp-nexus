@@ -64,15 +64,15 @@ export function DashboardDataFetcher() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1, duration: 0.4 }}
                 >
-                    <Card className="bg-slate-900/80 border-slate-800 backdrop-blur-sm shadow-sm hover:border-slate-700 transition-colors">
+                    <Card className="bg-black/50 border-white/10 backdrop-blur-sm shadow-sm hover:border-white/20 transition-colors">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium text-slate-400">
+                            <CardTitle className="text-sm font-medium text-zinc-400">
                                 Total Problems Solved
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold text-white">{data?.totalProblemsSolved.toLocaleString()}</div>
-                            <p className="text-xs text-slate-500 mt-1">
+                            <p className="text-xs text-zinc-500 mt-1">
                                 Across all linked platforms.
                             </p>
                         </CardContent>
@@ -85,25 +85,24 @@ export function DashboardDataFetcher() {
                     transition={{ delay: 0.2, duration: 0.4 }}
                 >
                     {data?.cfHandle ? (
-                        <Card className="bg-slate-900/80 border-slate-800 backdrop-blur-sm shadow-sm hover:border-blue-900/30 transition-colors">
+                        <Card className="bg-black/50 border-white/10 backdrop-blur-sm shadow-sm hover:border-white/20 transition-colors">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium text-slate-400">
+                                <CardTitle className="text-sm font-medium text-zinc-400">
                                     Codeforces Handle
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="flex justify-between items-center">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                     <div>
-                                        <div className="text-2xl font-bold text-blue-400">{data.cfHandle}</div>
-                                        <p className="text-xs text-slate-500 mt-1">
+                                        <div className="text-2xl font-bold text-white">{data.cfHandle}</div>
+                                        <p className="text-xs text-zinc-500 mt-1">
                                             Account linked successfully.
                                         </p>
                                     </div>
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-wrap gap-2">
                                         <Button
-                                            variant="outline"
                                             size="sm"
-                                            className="border-slate-700 hover:bg-slate-800 text-slate-300"
+                                            className="bg-white text-black hover:bg-zinc-200 font-medium"
                                             onClick={async () => {
                                                 try {
                                                     await api.post('/sync/codeforces');
@@ -123,7 +122,7 @@ export function DashboardDataFetcher() {
                                         <Button
                                             variant="destructive"
                                             size="sm"
-                                            className="bg-red-900/20 hover:bg-red-900/40 text-red-300 border border-red-900/30"
+                                            className="bg-red-950/30 hover:bg-red-900/50 text-red-400 border border-red-900/50"
                                             onClick={async () => {
                                                 if (!confirm('Are you sure you want to unlink? This will delete all your Codeforces data.')) return;
                                                 try {
@@ -151,9 +150,9 @@ export function DashboardDataFetcher() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.4 }}
                 >
-                    <Card className="bg-slate-900/80 border-slate-800 backdrop-blur-sm shadow-sm hover:border-slate-700 transition-colors">
+                    <Card className="bg-black/50 border-white/10 backdrop-blur-sm shadow-sm hover:border-white/20 transition-colors">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium text-slate-400">
+                            <CardTitle className="text-sm font-medium text-zinc-400">
                                 Last Activity
                             </CardTitle>
                         </CardHeader>
@@ -161,7 +160,7 @@ export function DashboardDataFetcher() {
                             <div className="text-2xl font-bold text-white">
                                 {data?.lastSubmissionTime ? new Date(data.lastSubmissionTime).toLocaleDateString() : 'N/A'}
                             </div>
-                            <p className="text-xs text-slate-500 mt-1">
+                            <p className="text-xs text-zinc-500 mt-1">
                                 Time of your most recent submission.
                             </p>
                         </CardContent>
