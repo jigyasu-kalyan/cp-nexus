@@ -48,7 +48,7 @@ export default function LoginPage() {
             });
 
             const { token, user } = response.data;
-            
+
             if (token && user) {
                 // Store token and user data
                 setToken(token);
@@ -68,10 +68,10 @@ export default function LoginPage() {
     }
 
     return (
-        <Card className='w-full max-w-sm'>
+        <Card className='w-full max-w-sm bg-slate-900/50 border-slate-800 backdrop-blur text-slate-100'>
             <CardHeader>
-                <CardTitle className='text-2xl'>Login to CP-Nexus</CardTitle>
-                <CardDescription>Enter your email and password to access your dashboard.</CardDescription>
+                <CardTitle className='text-2xl text-white'>Login to CP-Nexus</CardTitle>
+                <CardDescription className="text-slate-400">Enter your email and password to access your dashboard.</CardDescription>
             </CardHeader>
             <CardContent>
                 <Form {...form}>
@@ -81,9 +81,13 @@ export default function LoginPage() {
                             name='email'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel className="text-slate-300">Email</FormLabel>
                                     <FormControl>
-                                        <Input placeholder='user@example.com' {...field} />
+                                        <Input
+                                            placeholder='user@example.com'
+                                            {...field}
+                                            className="bg-slate-950/50 border-slate-800 text-slate-100 placeholder:text-slate-600 focus-visible:ring-blue-500"
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -94,25 +98,30 @@ export default function LoginPage() {
                             name='password'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Password</FormLabel>
+                                    <FormLabel className="text-slate-300">Password</FormLabel>
                                     <FormControl>
-                                        <Input type='password' placeholder='********' {...field} />
+                                        <Input
+                                            type='password'
+                                            placeholder='********'
+                                            {...field}
+                                            className="bg-slate-950/50 border-slate-800 text-slate-100 placeholder:text-slate-600 focus-visible:ring-blue-500"
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
                         {error && (
-                            <p className='text-sm font-medium text-destructive'>{error}</p>
+                            <p className='text-sm font-medium text-red-500'>{error}</p>
                         )}
-                        <Button type='submit' className='w-full' disabled={loading}>
-                            { loading ? 'Logging in...' : 'Login' }
+                        <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white border-none' disabled={loading}>
+                            {loading ? 'Logging in...' : 'Login'}
                         </Button>
                     </form>
                 </Form>
-                
-                <div className='mt-6 text-sm text-slate-400'>
+
+                <div className='mt-6 text-sm text-slate-400 text-center'>
                     Don't have an account?{' '}
-                    <Link href='/register' className='text-blue-500 hover:underline'>Sign up</Link>
+                    <Link href='/register' className='text-blue-500 hover:text-blue-400 hover:underline'>Sign up</Link>
                 </div>
             </CardContent>
         </Card>

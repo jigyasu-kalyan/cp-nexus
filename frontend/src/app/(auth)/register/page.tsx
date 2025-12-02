@@ -66,10 +66,10 @@ export default function RegisterPage() {
 	}
 
 	return (
-		<Card className='w-full max-w-sm'>
+		<Card className='w-full max-w-sm bg-slate-900/50 border-slate-800 backdrop-blur text-slate-100'>
 			<CardHeader>
-				<CardTitle className='text-2xl'>Create an account</CardTitle>
-				<CardDescription>Start tracking your CP grind with CP-Nexus.</CardDescription>
+				<CardTitle className='text-2xl text-white'>Create an account</CardTitle>
+				<CardDescription className="text-slate-400">Start tracking your CP grind with CP-Nexus.</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
@@ -79,9 +79,14 @@ export default function RegisterPage() {
 							name='email'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Email</FormLabel>
+									<FormLabel className="text-slate-300">Email</FormLabel>
 									<FormControl>
-										<Input type='email' placeholder='you@example.com' {...field} />
+										<Input
+											type='email'
+											placeholder='you@example.com'
+											{...field}
+											className="bg-slate-950/50 border-slate-800 text-slate-100 placeholder:text-slate-600 focus-visible:ring-blue-500"
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -93,9 +98,13 @@ export default function RegisterPage() {
 							name='username'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Username</FormLabel>
+									<FormLabel className="text-slate-300">Username</FormLabel>
 									<FormControl>
-										<Input placeholder='yourusername' {...field} />
+										<Input
+											placeholder='yourusername'
+											{...field}
+											className="bg-slate-950/50 border-slate-800 text-slate-100 placeholder:text-slate-600 focus-visible:ring-blue-500"
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -107,9 +116,14 @@ export default function RegisterPage() {
 							name='password'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Password</FormLabel>
+									<FormLabel className="text-slate-300">Password</FormLabel>
 									<FormControl>
-										<Input type='password' placeholder='Your secure password' {...field} />
+										<Input
+											type='password'
+											placeholder='Your secure password'
+											{...field}
+											className="bg-slate-950/50 border-slate-800 text-slate-100 placeholder:text-slate-600 focus-visible:ring-blue-500"
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -120,22 +134,20 @@ export default function RegisterPage() {
 							<p className='text-sm text-red-500'>{error}</p>
 						) : null}
 						{success ? (
-							<p className='text-sm text-green-600'>{success}</p>
+							<p className='text-sm text-green-500'>{success}</p>
 						) : null}
 
-						<Button className='w-full' type='submit' disabled={loading}>
+						<Button className='w-full bg-blue-600 hover:bg-blue-700 text-white border-none' type='submit' disabled={loading}>
 							{loading ? 'Creating account...' : 'Register'}
 						</Button>
 					</form>
 				</Form>
 
-				<div className='mt-6 text-sm text-slate-400'>
+				<div className='mt-6 text-sm text-slate-400 text-center'>
 					Already have an account?{' '}
-					<Link href='/login' className='text-blue-500 hover:underline'>Log in</Link>
+					<Link href='/login' className='text-blue-500 hover:text-blue-400 hover:underline'>Log in</Link>
 				</div>
 			</CardContent>
 		</Card>
 	);
 }
-
-

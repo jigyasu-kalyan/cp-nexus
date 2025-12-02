@@ -42,7 +42,7 @@ export function Header() {
   };
 
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+    <header className="flex h-14 items-center gap-4 border-b border-slate-800 bg-slate-900/50 backdrop-blur px-4 lg:h-[60px] lg:px-6">
       {/* We can add a mobile sidebar toggle here later */}
       <div className="w-full flex-1">
         {/* We can add a search bar here later */}

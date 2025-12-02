@@ -55,24 +55,25 @@ export function ConnectCodeforces() {
     }
 
     return (
-        <Card>
+        <Card className="bg-slate-900/50 border-slate-800 backdrop-blur">
             <CardHeader>
-                <CardTitle className="text-sm font-medium">Connect Codeforces</CardTitle>
+                <CardTitle className="text-sm font-medium text-slate-200">Connect Codeforces</CardTitle>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleConnect} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="cf-handle">Handle</Label>
+                        <Label htmlFor="cf-handle" className="text-slate-300">Handle</Label>
                         <Input
                             id="cf-handle"
                             placeholder="e.g. tourist"
                             value={handle}
                             onChange={(e) => setHandle(e.target.value)}
                             disabled={isLoading}
+                            className="bg-slate-950/50 border-slate-800 text-slate-100 placeholder:text-slate-600 focus-visible:ring-blue-500"
                         />
                     </div>
                     {error && <p className="text-xs text-red-500">{error}</p>}
-                    <Button type="submit" className="w-full" disabled={isLoading || !handle}>
+                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white border-none" disabled={isLoading || !handle}>
                         {isLoading ? 'Connecting...' : 'Connect'}
                     </Button>
                 </form>

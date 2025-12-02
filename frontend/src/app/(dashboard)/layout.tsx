@@ -20,7 +20,7 @@ export default function DashboardLayout({
             const authenticated = isAuthenticated();
             setIsAuth(authenticated);
             setLoading(false);
-            
+
             if (!authenticated) {
                 router.push('/login');
             }
@@ -45,7 +45,8 @@ export default function DashboardLayout({
     }
 
     return (
-        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-slate-950 text-white relative overflow-hidden">
+            <div className="absolute inset-0 bg-linear-to-b from-slate-950 to-slate-900 -z-10 pointer-events-none" />
             <Sidebar />
             <div className="flex flex-col">
                 <Header />

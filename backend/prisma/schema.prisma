@@ -58,6 +58,22 @@ model PlatformProfile {
     lastSync        DateTime
 
     @@unique([userId, platform])
+    ratingHistory   RatingHistory[]
+}
+
+model RatingHistory {
+    id              String          @id @default(cuid())
+    profile         PlatformProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+    profileId       String
+    
+    rating          Int
+    contestId       Int
+    contestName     String
+    rank            Int
+    date            DateTime
+
+    @@index([profileId])
+    @@unique([profileId, contestId])
 }
 
 model Submission {

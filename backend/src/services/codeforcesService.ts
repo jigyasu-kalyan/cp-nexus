@@ -42,26 +42,56 @@ export async function syncCodeforcesData(userId: string, handle: string) {
     const latestRating = ratingUpdates.length > 0 ? ratingUpdates[ratingUpdates.length - 1].newRating : null;
     await prisma.$transaction(async (tx) => {
         console.log(`[SYNC] Processing ${newSubmissions.length} submissions for ${handle}`);
-        const insertedCount = await tx.submission.createMany({
-            data: newSubmissions as any[],
-            skipDuplicates: true,
-        });
-        console.log(`[SYNC] Inserted/Skipped: ${insertedCount.count}`);
 
-        await tx.platformProfile.update({
+        // 1. Get Profile ID
+        const profile = await tx.platformProfile.findUnique({
             where: {
                 userId_platform: {
                     userId: userId,
                     platform: Platform.CODEFORCES,
                 },
             },
+        });
+
+        if (!profile) {
+            throw new Error(`Profile not found for user ${userId} and platform CODEFORCES`);
+        }
+
+        // 2. Insert Submissions
+        const insertedCount = await tx.submission.createMany({
+            data: newSubmissions as any[],
+            skipDuplicates: true,
+        });
+        console.log(`[SYNC] Inserted/Skipped Submissions: ${insertedCount.count}`);
+
+        // 3. Insert Rating History
+        if (ratingUpdates.length > 0) {
+            const ratingHistoryData = ratingUpdates.map((update: any) => ({
+                profileId: profile.id,
+                rating: update.newRating,
+                contestId: update.contestId,
+                contestName: update.contestName,
+                rank: update.rank,
+                date: new Date(update.ratingUpdateTimeSeconds * 1000),
+            }));
+
+            const insertedRatings = await tx.ratingHistory.createMany({
+                data: ratingHistoryData,
+                skipDuplicates: true,
+            });
+            console.log(`[SYNC] Inserted/Skipped Ratings: ${insertedRatings.count}`);
+        }
+
+        // 4. Update Profile Stats
+        await tx.platformProfile.update({
+            where: { id: profile.id },
             data: {
                 rating: latestRating,
                 lastSync: new Date(),
             },
         });
 
-        console.log(`Successfully bulk inserted/skipped ${insertedCount.count} submissions.`);
+        console.log(`Successfully synced data for ${handle}`);
     });
     return {
         submissionsCount: newSubmissions.length,

@@ -1,6 +1,7 @@
 import { getToken, removeToken } from './auth';
 
 const BASE_URL = 'https://cp-nexus-backend.onrender.com/api/v1/';
+// const BASE_URL = 'http://localhost:8000/api/v1/';
 
 interface FetchOptions extends RequestInit {
     data?: any;
