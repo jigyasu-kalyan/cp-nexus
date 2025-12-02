@@ -26,6 +26,12 @@ export function Sidebar() {
             >
               My Teams
             </Link>
+            <Link
+              href="/contests"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-400 transition-all hover:text-slate-100 hover:bg-slate-800/50"
+            >
+              Contest Calendar
+            </Link>
           </nav>
         </div>
       </div>

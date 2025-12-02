@@ -1,5 +1,6 @@
 import { PrismaClient, Submission, Platform } from '@prisma/client';
 import prisma from '../config/db';
+import axios from 'axios';
 
 const CODEFORCES_BASE_URL = 'https://codeforces.com/api';
 
@@ -27,6 +28,7 @@ export async function syncCodeforcesData(userId: string, handle: string) {
         fetchCodeforcesData(`${CODEFORCES_BASE_URL}/user.status?handle=${handle}`),
         fetchCodeforcesData(`${CODEFORCES_BASE_URL}/user.rating?handle=${handle}`)
     ]);
+
     const newSubmissions = submissionsData
         .filter((sub: any) => sub.verdict === 'OK') // Keep only accepted solutions
         .map((sub: any) => ({
@@ -39,7 +41,9 @@ export async function syncCodeforcesData(userId: string, handle: string) {
             verdict: 'ACCEPTED',
             submittedAt: new Date(sub.creationTimeSeconds * 1000),
         }));
+
     const latestRating = ratingUpdates.length > 0 ? ratingUpdates[ratingUpdates.length - 1].newRating : null;
+
     await prisma.$transaction(async (tx) => {
         console.log(`[SYNC] Processing ${newSubmissions.length} submissions for ${handle}`);
 
@@ -93,8 +97,31 @@ export async function syncCodeforcesData(userId: string, handle: string) {
 
         console.log(`Successfully synced data for ${handle}`);
     });
+
     return {
         submissionsCount: newSubmissions.length,
         rating: latestRating,
     };
 }
+
+class CodeforcesService {
+    async getUpcomingContests() {
+        try {
+            const response = await axios.get('https://codeforces.com/api/contest.list?gym=false');
+            if (response.data.status !== 'OK') {
+                throw new Error('Failed to fetch contests from Codeforces');
+            }
+
+            const contests = response.data.result
+                .filter((contest: any) => contest.phase === 'BEFORE')
+                .sort((a: any, b: any) => a.startTimeSeconds - b.startTimeSeconds);
+
+            return contests;
+        } catch (error) {
+            console.error('Error fetching upcoming contests:', error);
+            throw error;
+        }
+    }
+}
+
+export const codeforcesService = new CodeforcesService();

@@ -7,6 +7,7 @@ import userRoutes from './routes/user.routes';
 import teamRoutes from './routes/team.routes';
 import profileRoutes from './routes/profile.routes';
 import dashboardRouter from "./routes/dashboard.routes";
+import contestRoutes from "./routes/contest.routes";
 import cookieParser from 'cookie-parser';
 
 const app: Express = express();
@@ -39,5 +40,6 @@ app.use('/api/v1', userRoutes);
 app.use('/api/v1', teamRoutes);
 app.use('/api/v1', profileRoutes);
 app.use('/api/v1', dashboardRouter);
+app.use('/api/v1/contests', contestRoutes);
 
 export default app;
