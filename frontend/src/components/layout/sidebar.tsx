@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Terminal, LayoutDashboard, Calendar, Users } from 'lucide-react';
+import { Terminal, LayoutDashboard, Calendar, Users, Flame } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function Sidebar() {
@@ -10,6 +10,7 @@ export function Sidebar() {
     { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/team', label: 'My Teams', icon: Users },
     { href: '/contests', label: 'Contest Calendar', icon: Calendar },
+    { href: '/editor', label: 'Hardcore Editor', icon: Flame },
   ];
 
   return (
