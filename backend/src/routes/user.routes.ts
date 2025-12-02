@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { Router, Request, Response } from "express";
+import { Platform } from "@prisma/client";
 import prisma from '../config/db';
-import { Router  } from "express";
 import { authMiddleware } from "../middleware/auth.middleware";
+import { syncCodeforcesData } from "../services/codeforcesService";
 
 const router = Router();
 
@@ -30,4 +31,39 @@ router.get('/users/me', authMiddleware, async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Internal server error." });
     }
 });
+
+router.post('/sync/codeforces', authMiddleware, async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const profile = await prisma.platformProfile.findUnique({
+        where: {
+            userId_platform: {
+                userId: userId,
+                platform: Platform.CODEFORCES,
+            },
+        },
+    });
+    if (!profile || !profile.handle) {
+        return res.status(404).json({ error: 'Codeforces handle is not linked.' });
+    }
+    try {
+        const result = await syncCodeforcesData(userId, profile.handle);
+
+        return res.status(200).json({
+            message: `Synced data for ${profile.handle}.`,
+            ...result,
+        });
+
+    } catch (error) {
+        const errorMessage = (error as Error).message;
+        console.error('Codeforces Sync Failed:', errorMessage);
+
+        return res.status(500).json({
+            error: 'Synchronization failed.',
+            details: errorMessage,
+            // Simple warning reminder
+            warning: 'Sync is slow and blocking! We must implement background jobs soon.',
+        });
+    }
+})
+
 export default router;

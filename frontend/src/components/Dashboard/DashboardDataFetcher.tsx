@@ -1,9 +1,11 @@
 'use client';
 
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import api from '@/lib/api';
+import { ConnectCodeforces } from './ConnectCodeforces';
 
 // Define the shape of the data we expect from the backend API
 interface DashboardData {
@@ -26,7 +28,7 @@ export function DashboardDataFetcher() {
     });
 
     if (error) return <p className="text-red-500">Failed to load dashboard data.</p>;
-    
+
     if (isLoading) {
         // Display loading state using shadcn/ui Skeleton
         return (
@@ -37,7 +39,7 @@ export function DashboardDataFetcher() {
             </div>
         );
     }
-    
+
     // Data is guaranteed to be present here
     return (
         <div className="space-y-8">
@@ -58,21 +60,45 @@ export function DashboardDataFetcher() {
                         </p>
                     </CardContent>
                 </Card>
-                
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            Codeforces Handle
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-blue-600">{data?.cfHandle || 'Not Linked'}</div>
-                        <p className="text-xs text-muted-foreground">
-                            Link accounts for unified stats.
-                        </p>
-                    </CardContent>
-                </Card>
-                
+
+                {data?.cfHandle ? (
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                Codeforces Handle
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <div className="text-2xl font-bold text-blue-600">{data.cfHandle}</div>
+                                    <p className="text-xs text-muted-foreground">
+                                        Account linked successfully.
+                                    </p>
+                                </div>
+                                <Button
+                                    variant="destructive"
+                                    size="sm"
+                                    onClick={async () => {
+                                        if (!confirm('Are you sure you want to unlink? This will delete all your Codeforces data.')) return;
+                                        try {
+                                            await api.delete('/profiles/unlink/CODEFORCES');
+                                            mutate('dashboard/stats');
+                                        } catch (e) {
+                                            console.error('Failed to unlink', e);
+                                            alert('Failed to unlink account.');
+                                        }
+                                    }}
+                                >
+                                    Unlink
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <ConnectCodeforces />
+                )}
+
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
